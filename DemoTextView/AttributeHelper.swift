@@ -19,18 +19,60 @@ extension String {
     }
 }
 
+extension NSRange {
+    func isContinuous(_ range: NSRange) -> Bool{
+        return self.location + self.length == range.location
+    }
+}
+
 class AttributeHelper {
-    class func convertAttributeStringToInfos(_ attributeString: NSAttributedString) -> [AttributeInfo] {
-        let result = [AttributeInfo]()
+    class func convertAttributeStringToInfos(_ attributeString: NSAttributedString) -> [AttributeInfoProtocol] {
+        var result = [AttributeInfoProtocol]()
         guard let range = attributeString.string.amendRange() else {
            return result
         }
         
-        var prevAttribute = 
-        attributeString.enumerateAttribute(CustomAttributeKey, in: range, options: [], using: { (attrbute, atRange, stop) -> Void in
+        var prevAttribute: AttributeInfoProtocol!
+        var prevRange: NSRange = NSRange(location: 0, length: 0)
+        var isNeedRemoveLastItem = false
+        attributeString.enumerateAttributes(in: range, options: []) { (attributes, atRange, stop) in
+            guard let attribute = getAttributeInfo(attributes) else {
+                return
+            }
             
-        })
-        
+            guard prevAttribute != nil else {
+                prevRange = atRange
+                prevAttribute = attribute
+                return
+            }
+            
+            print("\(attributeString.attributedSubstring(from: atRange))")
+            
+            if prevAttribute.isEqual(attribute) && prevRange.isContinuous(atRange) {
+                isNeedRemoveLastItem = true
+            }
+            
+            if isNeedRemoveLastItem && result.count != 0 {
+                result.removeLast()
+            }
+            
+            result.append(attribute)
+            
+            prevRange = atRange
+            prevAttribute = attribute
+            isNeedRemoveLastItem = false
+        }        
         return result
+    }
+    
+    static let attributeKeys: [NSAttributedString.Key] = [AttributeKey.AttributeAtKey, AttributeKey.AttributeExternalLinkKey, AttributeKey.AttributeInternalLinkKey, AttributeKey.AttributeTextKey]
+    
+    class func getAttributeInfo(_ attributes: [NSAttributedString.Key: Any]) -> AttributeInfoProtocol? {
+        for key in AttributeHelper.attributeKeys {
+            if let attribute = attributes[key] {
+                return attribute as? AttributeInfoProtocol
+            }
+        }
+        return nil
     }
 }

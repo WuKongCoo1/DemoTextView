@@ -16,49 +16,37 @@ enum AttributeType: Int {
 }
 
 protocol BaseAttributeProtocol {
-    func attributeStringCore() -> NSAttributedString
+    var attributeString: NSAttributedString { get }
+    var type: AttributeType { get }
+    var attributeKey: NSAttributedString.Key { get }
 }
 
 typealias AttributeInfoProtocol = NSObject & BaseAttributeProtocol
 
-let CustomAttributeKey = NSAttributedString.Key("customAttributeKey")
-
-class AttributeInfo: NSObject, BaseAttributeProtocol {
-    func attributeStringCore() -> NSAttributedString {
-        return info.attributeStringCore()
-    }
-    
-    let type: AttributeType = .text
-    let info: AttributeInfoProtocol
-    
-    override func isEqual(_ object: Any?) -> Bool {
-        assert(false, "you have to overwrite isEqual method")
-        return false
-    }
-    
-    init(info: AttributeInfoProtocol) {
-        self.info = info
-    }
+enum AttributeKey {
+    static let AttributeInternalLinkKey = NSAttributedString.Key("AttributeInternalLinkKey")
+    static let AttributeExternalLinkKey = NSAttributedString.Key("AttributeExternalLinkKey")
+    static let AttributeAtKey = NSAttributedString.Key("AttributeAtKey")
+    static let AttributeTextKey = NSAttributedString.Key("AttributeTextKey")
 }
 
 class BaseInfo: AttributeInfoProtocol {
-    internal func attributeStringCore() -> NSAttributedString {
+    var attributeString: NSAttributedString {
         assert(false, "child have to overwrite attributeString method")
         return NSAttributedString()
     }
     
-     final func attributeString() -> NSAttributedString {
-        if let tAttrString = attributeStringCore().mutableCopy() as? NSMutableAttributedString, let range = tAttrString.string.amendRange() {
-            tAttrString.addAttribute(CustomAttributeKey, value: self, range: range)
-            return tAttrString
-        }
-        
-        return attributeStringCore()
+    var attributeKey: NSAttributedString.Key {
+        return AttributeKey.AttributeTextKey
+    }
+    
+    var type: AttributeType {
+        return .text
     }
 }
 
 class ExternalLinkInfo: AttributeInfoProtocol {
-    func attributeStringCore() -> NSAttributedString {
+    var attributeString: NSAttributedString {
         let resultString = NSMutableAttributedString(string: url)
         
         guard let range = url.amendRange(), url.count != 0 else {
@@ -67,8 +55,17 @@ class ExternalLinkInfo: AttributeInfoProtocol {
         
         resultString.addAttribute(NSAttributedString.Key.font, value: UIFont.systemFont(ofSize: 14), range: range)
         resultString.addAttribute(NSAttributedString.Key.foregroundColor, value: UIColor.blue, range: range)
+        resultString.addAttribute(attributeKey, value: self, range: range)
         
         return resultString
+    }
+    
+    var attributeKey: NSAttributedString.Key {
+        return  AttributeKey.AttributeExternalLinkKey
+    }
+    
+    var type: AttributeType {
+        return .externalLink
     }
     
     override func isEqual(_ object: Any?) -> Bool {
@@ -92,17 +89,20 @@ class ExternalLinkInfo: AttributeInfoProtocol {
     var url: String = ""
     var infoA: Int?
     var infoB: Int?
+    static var id: Int64 = 1
+    var id: Int64
     
     init(url: String, infoA: Int?, infoB: Int?) {
         self.url = url
         self.infoA = infoA
         self.infoB = infoB
+        self.id =
     }
     
 }
 
 class InternalLinkInfo: AttributeInfoProtocol {
-    func attributeStringCore() -> NSAttributedString {
+    var attributeString: NSAttributedString {
         let resultString = NSMutableAttributedString(string: url)
         
         guard let range = url.amendRange(), url.count != 0 else {
@@ -111,8 +111,17 @@ class InternalLinkInfo: AttributeInfoProtocol {
         
         resultString.addAttribute(NSAttributedString.Key.font, value: UIFont.systemFont(ofSize: 14), range: range)
         resultString.addAttribute(NSAttributedString.Key.foregroundColor, value: UIColor.red, range: range)
-        
+        resultString.addAttribute(attributeKey, value: self, range: range)
         return resultString
+    }
+    
+    
+    var attributeKey: NSAttributedString.Key {
+        return AttributeKey.AttributeInternalLinkKey
+    }
+    
+    var type: AttributeType {
+        return .internalLink
     }
     
     var url: String = ""
@@ -145,7 +154,7 @@ class InternalLinkInfo: AttributeInfoProtocol {
 }
 
 class AtInfo: AttributeInfoProtocol {
-    func attributeStringCore() -> NSAttributedString {
+    var attributeString: NSAttributedString {
         let resultString = NSMutableAttributedString(string: url)
         
         guard let range = url.amendRange(), url.count != 0 else {
@@ -154,8 +163,16 @@ class AtInfo: AttributeInfoProtocol {
         
         resultString.addAttribute(NSAttributedString.Key.font, value: UIFont.systemFont(ofSize: 14), range: range)
         resultString.addAttribute(NSAttributedString.Key.foregroundColor, value: UIColor.cyan, range: range)
-        
+        resultString.addAttribute(attributeKey, value: self, range: range)
         return resultString
+    }
+    
+    var attributeKey: NSAttributedString.Key {
+        return  AttributeKey.AttributeAtKey
+    }
+    
+    var type: AttributeType {
+        return .at
     }
     
     
@@ -164,7 +181,7 @@ class AtInfo: AttributeInfoProtocol {
     var infoB: Int?
     
     override func isEqual(_ object: Any?) -> Bool {
-        guard let other = object as? InternalLinkInfo else {
+        guard let other = object as? AtInfo else {
             return false
         }
         
@@ -189,7 +206,7 @@ class AtInfo: AttributeInfoProtocol {
 }
 
 class TextInfo: AttributeInfoProtocol {
-    func attributeStringCore() -> NSAttributedString {
+    var attributeString: NSAttributedString {
         let resultString = NSMutableAttributedString(string: text)
         
         guard let range = text.amendRange(), text.count != 0 else {
@@ -198,8 +215,17 @@ class TextInfo: AttributeInfoProtocol {
         
         resultString.addAttribute(NSAttributedString.Key.font, value: UIFont.systemFont(ofSize: 14), range: range)
         resultString.addAttribute(NSAttributedString.Key.foregroundColor, value: UIColor.black, range: range)
-        
+        resultString.addAttribute(attributeKey, value: self, range: range)
         return resultString
+    }
+    
+    
+    var attributeKey: NSAttributedString.Key {
+        return  AttributeKey.AttributeTextKey
+    }
+    
+    var type: AttributeType {
+        return .text
     }
     
     override func isEqual(_ object: Any?) -> Bool {
