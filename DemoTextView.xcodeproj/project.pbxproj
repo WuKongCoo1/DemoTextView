@@ -17,6 +17,10 @@
 		2B1F7857249BB34500089A99 /* DemoTextViewUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B1F7856249BB34500089A99 /* DemoTextViewUITests.swift */; };
 		2B89218B249CC0DD003659EA /* AttributeInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B89218A249CC0DC003659EA /* AttributeInfo.swift */; };
 		2B89218D249CC34C003659EA /* AttributeHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B89218C249CC34C003659EA /* AttributeHelper.swift */; };
+		2B89218F249DE00D003659EA /* TextInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B89218E249DE00D003659EA /* TextInfo.swift */; };
+		2B892191249DE02A003659EA /* AtInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B892190249DE02A003659EA /* AtInfo.swift */; };
+		2B892193249DE04C003659EA /* InternalLinkInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B892192249DE04C003659EA /* InternalLinkInfo.swift */; };
+		2B892195249DE074003659EA /* ExternalLinkInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B892194249DE074003659EA /* ExternalLinkInfo.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -53,6 +57,10 @@
 		2B1F7858249BB34500089A99 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		2B89218A249CC0DC003659EA /* AttributeInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AttributeInfo.swift; sourceTree = "<group>"; };
 		2B89218C249CC34C003659EA /* AttributeHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AttributeHelper.swift; sourceTree = "<group>"; };
+		2B89218E249DE00D003659EA /* TextInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextInfo.swift; sourceTree = "<group>"; };
+		2B892190249DE02A003659EA /* AtInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AtInfo.swift; sourceTree = "<group>"; };
+		2B892192249DE04C003659EA /* InternalLinkInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InternalLinkInfo.swift; sourceTree = "<group>"; };
+		2B892194249DE074003659EA /* ExternalLinkInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExternalLinkInfo.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -107,7 +115,11 @@
 				2B1F7836249BB34200089A99 /* SceneDelegate.swift */,
 				2B1F7838249BB34200089A99 /* ViewController.swift */,
 				2B89218A249CC0DC003659EA /* AttributeInfo.swift */,
+				2B89218E249DE00D003659EA /* TextInfo.swift */,
+				2B892190249DE02A003659EA /* AtInfo.swift */,
 				2B89218C249CC34C003659EA /* AttributeHelper.swift */,
+				2B892192249DE04C003659EA /* InternalLinkInfo.swift */,
+				2B892194249DE074003659EA /* ExternalLinkInfo.swift */,
 				2B1F783A249BB34200089A99 /* Main.storyboard */,
 				2B1F783D249BB34500089A99 /* Assets.xcassets */,
 				2B1F783F249BB34500089A99 /* LaunchScreen.storyboard */,
@@ -265,10 +277,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2B892193249DE04C003659EA /* InternalLinkInfo.swift in Sources */,
 				2B89218D249CC34C003659EA /* AttributeHelper.swift in Sources */,
 				2B1F7839249BB34200089A99 /* ViewController.swift in Sources */,
 				2B1F7835249BB34200089A99 /* AppDelegate.swift in Sources */,
 				2B89218B249CC0DD003659EA /* AttributeInfo.swift in Sources */,
+				2B892195249DE074003659EA /* ExternalLinkInfo.swift in Sources */,
+				2B892191249DE02A003659EA /* AtInfo.swift in Sources */,
+				2B89218F249DE00D003659EA /* TextInfo.swift in Sources */,
 				2B1F7837249BB34200089A99 /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -442,7 +458,9 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = B4JPFKWLRH;
 				INFOPLIST_FILE = DemoTextView/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -450,6 +468,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = test.DemoTextView;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -459,7 +478,9 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = B4JPFKWLRH;
 				INFOPLIST_FILE = DemoTextView/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -467,6 +488,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = test.DemoTextView;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
