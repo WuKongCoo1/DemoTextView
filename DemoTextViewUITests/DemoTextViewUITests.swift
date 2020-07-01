@@ -3,7 +3,7 @@
 //  DemoTextViewUITests
 //
 //  Created by 吴珂 on 2020/6/18.
-//  Copyright © 2020 bytedance. All rights reserved.
+//  Copyright © 2020 Personal. All rights reserved.
 
 
 import XCTest

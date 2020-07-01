@@ -3,7 +3,7 @@
 //  DemoTextView
 //
 //  Created by 吴珂 on 2020/6/18.
-//  Copyright © 2020 bytedance. All rights reserved.
+//  Copyright © 2020 Personal. All rights reserved.
 
 
 import UIKit
@@ -14,8 +14,13 @@ class ViewController: UIViewController {
     var lastRange = NSRange(location: 0, length: 0)
     
     @IBOutlet weak var textView: UITextView!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+//        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(myMethodToHandleTap(_:)))
+//        textView.addGestureRecognizer(tapGesture)
+        
         textView.delegate = self
         textView.textContainer.lineBreakMode = .byClipping
         textView.dataDetectorTypes = .link
@@ -34,7 +39,7 @@ class ViewController: UIViewController {
         let textInfo2 = TextInfo(text: "🔴🔴哈哈哈哈哈哈www.baidu.com")
                 
         let attrInfos: [AttributeInfoProtocol] = [internalLinkInfo1, internalLinkInfo2, externalLinkInfo1, externalLinkInfo2, atInfo1, textInfo1, atInfo2, textInfo2]
-//        let attrInfos: [AttributeInfoProtocol] = [internalLinkInfo1]
+
         textView.attributedText = AttributeHelper.convertAttributeInfoToAttributeString(attrInfos)
         
         var isSuccess = true
@@ -57,6 +62,40 @@ class ViewController: UIViewController {
         }
     }
     
+    @objc func myMethodToHandleTap(_ sender: UITapGestureRecognizer) {
+
+        let myTextView = sender.view as! UITextView
+        let layoutManager = myTextView.layoutManager
+
+        // location of tap in myTextView coordinates and taking the inset into account
+        var location = sender.location(in: myTextView)
+        location.x -= myTextView.textContainerInset.left;
+        location.y -= myTextView.textContainerInset.top;
+
+        // character index at tap location
+        let characterIndex = layoutManager.characterIndex(for: location, in: myTextView.textContainer, fractionOfDistanceBetweenInsertionPoints: nil)
+
+        // if index is valid then do something.
+        if characterIndex < myTextView.textStorage.length {
+
+            // print the character index
+            print("character index: \(characterIndex)")
+
+            // print the character at the index
+            let myRange = NSRange(location: characterIndex, length: 1)
+            let substring = (myTextView.attributedText.string as NSString).substring(with: myRange)
+            print("character at index: \(substring)")
+
+//            // check if the tap location has a certain attribute
+//            let attributeName = NSAttributedString.Key.myAttributeName
+//            let attributeValue = myTextView.attributedText?.attribute(attributeName, at: characterIndex, effectiveRange: nil)
+//            if let value = attributeValue {
+//                print("You tapped on \(attributeName.rawValue) and the value is: \(value)")
+//            }
+
+        }
+    }
+    
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         test()
 //        view.endEditing(true)
@@ -67,8 +106,6 @@ class ViewController: UIViewController {
 
 extension ViewController: UITextViewDelegate {
     func textViewDidChangeSelection(_ textView: UITextView) {
-        
-        
         let currentSelectRange = textView.selectedRange
         if lastRange.location == currentSelectRange.location && lastRange.length == currentSelectRange.length {
             return

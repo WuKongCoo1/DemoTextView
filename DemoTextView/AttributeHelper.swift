@@ -3,7 +3,7 @@
 //  DemoTextView
 //
 //  Created by 吴珂 on 2020/6/19.
-//  Copyright © 2020 bytedance. All rights reserved.
+//  Copyright © 2020 Personal. All rights reserved.
 
 
 import UIKit
@@ -117,11 +117,19 @@ class AttributeHelper {
 
             let shoudStop = prevAttribute != nil && !prevAttribute.isEqual(attribute)
             if shoudStop {
+                
                 stop.pointee = true
                 return
             }
 
             if fixRange.location >= atRange.location && fixRange.location + fixRange.length <= atRange.location + atRange.length {
+                
+                if attribute.type == .text {
+                    fixRange = targetRange
+                    stop.pointee = true
+                    return
+                }
+                
                 fixRange.location = atRange.location + atRange.length
                 fixRange.length = 0
                 prevAttribute = attribute
